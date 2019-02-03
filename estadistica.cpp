@@ -9,13 +9,13 @@ using namespace std;
 float* nums; // Arreglo dinámico de datos.
 
 // Definición de métodos
-float promedio(int n);
-float mediana(int n);
-float moda(int n);
-float varianza(int n, float p);
-float desviacion(float v);
-float oblicuidad(int n, float p, float s);
-float curtosis(int n, float p, float s);
+float promedio(int);
+float mediana(int);
+float moda(int);
+float varianza(int, float);
+float desviacion(float);
+float oblicuidad(int, float, float);
+float curtosis(int, float, float);
 
 
 int main(){
@@ -43,23 +43,23 @@ int main(){
 	cout << "]";
 
 	float p = promedio(n);
-	cout << "\n\nPromedio: " << p << ".\n";
+	cout << "\n\nPromedio: " << p << "." << endl;
 	float m = mediana(n);
-	cout << "Mediana: " << m << ".\n";
+	cout << "Mediana: " << m << "." << endl;
 	float mo = moda(n);
-	cout << "Moda: " << mo << ".\n";
+	cout << "Moda: " << mo << "." << endl;
 	float v = varianza(n, p);
-	cout << "Varianza: " << v << ".\n";
+	cout << "Varianza: " << v << "." << endl;
 	float s = desviacion(v);
-	cout << "Desviación estándar: " << s << ".\n";
+	cout << "Desviación estándar: " << s << "." << endl;
 	float o = oblicuidad(n, p, s);
-	cout << "Oblicuidad: " << o << ".\n";
+	cout << "Oblicuidad: " << o << "." << endl;
 	float c = curtosis(n, p, s);
-	cout << "Curtosis: " << c << ".\n";
+	cout << "Curtosis: " << c << "." << endl;
 
 	delete [] nums;
 
-	cout << "\n";
+	cout << endl;
 
 	return 0;
 }
