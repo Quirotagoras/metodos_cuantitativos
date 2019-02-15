@@ -1,5 +1,5 @@
-// Compilar - g++ calculo_pi.cpp -o pi
-// Ejecutar - ./pi
+// Compilar - g++ aceptacion_rechazo.cpp -o ar
+// Ejecutar - ./ar
 
 #include <iostream>
 #include <math.h>
@@ -29,21 +29,24 @@ int main(){
     points = new Point[N];
 
     for(int i = 0; i < N; i++){
-        r1 = rand() % 1; r2 = rand() % 1;
+        r1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // Número aleatorio etre [0, 1]
+        r2 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        //cout << "R1: " << r1 << ", R2: " << r2 << endl;
         points[i] = Point(r1, r2);
     }
 
     n = contar_bajo_curva(N);
 
-    cout << "Puntos:\n[ ";
+    // Imprimir puntos
+    /*cout << "Puntos:\n[ ";
 	for(int i = 0; i < N; i++){
 		cout << "(" << points[i].x << ", " << points[i].y << ") ";
 	}
-	cout << "]" << endl;
+	cout << "]" << endl;*/
 
     cout << "Puntos bajo la curva: " << n << endl;
 
-    cout << "n/N = " << n/N << endl;
+    cout << "n/N = " << (float)n/N << endl;
 
     delete [] points;
 
@@ -54,7 +57,8 @@ int contar_bajo_curva(int N){
     int contador = 0;
     float op;
     for(int i = 0; i < N; i++){
-        op = sqrt(1 - pow(points[i].x, 2));
+        //op = sqrt(1 - pow(points[i].x, 2));
+        op = 9.481 * points[i].x * pow((1 - points[i].x), 3);
         if(points[i].y <= op){
             contador++;
         }
