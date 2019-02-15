@@ -6,8 +6,10 @@
 #include <string.h>
 using namespace std;
 
+#define PI 3.14159265
+
 void transformacion(int, int, int);
-void dist_normal(int, int, int);
+void dist_normal(float, float, int);
 
 float* x, *z; // Arreglos dinámicos de datos.
 
@@ -20,28 +22,37 @@ int main(){
     x = new float[n]; // Crear arreglo de tamaño n.
     z = new float[n];
 
-    cout << "Introduce el valor del valor medio (m): " << endl;
+    cout << "\nIntroduce el valor medio (m): ";
     cin >> m;
-    cout << "Introduce el valor de sigma (sigma): " << endl;
+    cout << "\nIntroduce el valor de sigma (sigma): ";
     cin >> sigma;
 
     float r1 = rand() % 1;
-    cout << "Número aleatorio R1: " << r1 << endl;
+    cout << "\nNúmero aleatorio R1: " << r1 << endl;
     float r2 = rand() % 1;
     cout << "Número aleatorio R2: " << r2 << endl;
+
+    dist_normal(r1, r2, n);
+    transformacion(m, sigma, n);
 
     cout << "Xi:\n[ ";
 	for(int i = 0; i < n; i++){
 		cout << x[i] << " ";
 	}
-	cout << "]";
+	cout << "]" << endl;
+
+    delete [] x;
+    delete [] z;
 
     return 0;
 }
 
-void dist_normal(int m, int sigma, int n){
+void dist_normal(float r1, float r2, int n){
+    float ln, cos;
     for(int i = 0; i < n; i++){
-        z[i] = 1;
+        ln = -2 * log(r1);
+        cos = cos(2 * PI * (r2 * PI / 180));
+        z[i] = (pow(ln, 1/2)) * cos;
     }
 }
 
