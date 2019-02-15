@@ -48,11 +48,11 @@ int main(){
 }
 
 void dist_normal(float r1, float r2, int n){
-    float ln, cos;
+    float ln, cs;
     for(int i = 0; i < n; i++){
         ln = -2 * log(r1);
-        cos = cos(2 * PI * (r2 * PI / 180));
-        z[i] = (pow(ln, 1/2)) * cos;
+        cs = cos(2 * PI * (r2 * PI / 180));
+        z[i] = (pow(ln, 1/2)) * cs;
     }
 }
 
