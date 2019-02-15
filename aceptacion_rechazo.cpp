@@ -57,8 +57,8 @@ int contar_bajo_curva(int N){
     int contador = 0;
     float op;
     for(int i = 0; i < N; i++){
-        //op = sqrt(1 - pow(points[i].x, 2));
-        op = 9.481 * points[i].x * pow((1 - points[i].x), 3);
+        op = sqrt(1 - pow(points[i].x, 2)); // pi / 4
+        //op = 9.481 * points[i].x * pow((1 - points[i].x), 3);
         if(points[i].y <= op){
             contador++;
         }
