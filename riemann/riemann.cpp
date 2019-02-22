@@ -8,7 +8,7 @@ double f(double);
 double area(FUNC, double, double, double=50); // Función que recibe otra función (FUNC).
 
 int main(){
-    double a, b, sum;
+    double a, b, n, sum;
     cout << "Introduce el límite izquierdo (a): ";
 	cin >> a;
 
@@ -16,7 +16,7 @@ int main(){
 	cin >> b;
 
     cout << "\nIntroduce el número de partes (n): ";
-	cin >> a;
+	cin >> n;
 
     sum = area(f, a, b, n);
     cout << "Área de f: " << sum << endl;
