@@ -12,6 +12,8 @@ using namespace std;
 
 double f(double);
 
+float* val;
+
 int main(){
     bool exit = false;
     int op;
@@ -26,7 +28,8 @@ int main(){
         cout << "5. Números aleatorios por medio de Congruencia Lineal" << endl;
         cout << "6. Transformación directa para la Distribución Normal" << endl;
         cout << "7. Aceptación y rechazo para la Distribución Gamma" << endl;
-        cout << "8. Prueba de Chi cuadrada" << endl;
+        cout << "8. Contar puntos bajo la curva" << endl;
+        cout << "9. Prueba de Chi cuadrada" << endl;
 
         cout << "Opción: ";
         cin >> op;
@@ -109,9 +112,11 @@ int main(){
                 cout << "\nResultados:" << endl;
                 cout << "P(A) * P(A/Aa): " << pa_aa << "." << endl;
                 cout << "P(A) * P(A/Ab): " << pa_ab << "." << endl;
+                cout << "P(A): " << pA << "." << endl;
 
                 cout << "P(B) * P(B/Ba): " << pb_ba << "." << endl;
                 cout << "P(B) * P(B/Bb): " << pb_bb << "." << endl;
+                cout << "P(B): " << pB << "." << endl;
 
                 cout << "P(A/Aa): " << pa_aa / pA << "." << endl;
                 cout << "P(A/Ab): " << pa_ab / pB << "." << endl;
@@ -156,7 +161,11 @@ int main(){
             }
             // Número aleatorios por Congruencia Lineal
             case 5 : {
-                 int semilla, a, c, m, x, r, i = 0;
+                 int semilla, a, c, n, m, x, i = 0;
+                 float r;
+
+                cout << "Introduce el número de valores: ";
+                cin >> n;
 
                 cout << "Introduce la semilla: ";
                 cin >> semilla;
@@ -170,16 +179,27 @@ int main(){
                 cout << "Introduce el valor del módulo (m): ";
                 cin >> m;
 
+                cout << endl;
+
                 x = semilla;
 
+                val = new float[n];
+
+                for (int i = 0; i < n; i++){
+                    x = ((a * x) + c) % m;
+                    r = (float)x/(float)m;
+
+                    cout << "[ X_" << i + 1 << ": " << x << ". R_" << i + 1 << ": " << r << " ]." << endl;
+                    val[i] = r;
+                }
+                /*
                 do {
                     x = ((a * x) + c) % m;
-                    r = x/m;
+                    r = (float)x/m;
 
-                    cout << "X" << i << ": " << x << "." << endl;
-                    cout << "R" << i << ": " << r << "." << endl;
+                    cout << "[ X_" << i + 1 << ": " << x << ". R_" << i + 1 << ": " << r << " ]." << endl;
                     i++;
-                } while (x != semilla);
+                } while (x != semilla);*/
 
                 cout << endl;
 
@@ -227,9 +247,74 @@ int main(){
 
                 break;
             }
+            // Contar bajo la curva
+            case 8: {
+                int n, pw, N, A = 1;
+                Point* points;
+
+                float r1, r2;
+
+                cout << "Introduce el número de puntos a generar: ";
+                cin >> N;
+
+                cout << "Introduce el exponente: ";
+                cin >> pw;
+
+                points = new Point[N];
+
+                for(int i = 0; i < N; i++){
+                    r1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // Número aleatorio etre [0, 1]
+                    r2 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                    points[i] = Point(r1, r2);
+                }
+
+                n = contar_bajo_curva(N, pw, points);
+
+                cout << "Puntos bajo la curva: " << n << endl;
+
+                cout << "n/N = " << (float)n/N << endl << endl;
+
+                delete [] points;
+
+                break;
+            }
             // Chi cuadrada
-            case 8 : {
-                cout << "En proceso." << endl << endl;
+            case 9 : {
+                int num, n, ei, gl, count;
+                int* oi;
+                float a, x, chi;
+                
+                cout << "Introduce el número de datos: ";
+                cin >> num;
+
+                cout << "Introduce el nivel de confianza: ";
+                cin >> a;
+                
+                n = sqrt(num);
+
+                oi = new int[n];
+
+                ei = num/n;
+                gl = n - 1;
+
+                sort(val, val + num);
+
+                llenar_clases(val, oi, num, n);
+
+                chi = calculo_chi(oi, n, ei);
+
+                cout << "Clases:\n[ ";
+                for(int i = 0; i < n; i++){
+                    cout << oi[i] << " ";
+                }
+                cout << "]" << endl;
+
+                cout << "Chi cuadrada: " << chi << "." << endl;
+                cout << "Nivel de confianza: " << a << "." << endl;
+                cout << "Grados de libertad: " << gl << "." << endl;
+
+                delete [] oi;
+
                 break;
             }
             default:{
@@ -238,6 +323,8 @@ int main(){
             }
         }
     }
+
+    delete [] val;
 
     return 0;
 }

@@ -8,14 +8,15 @@
 #include <string.h>
 using namespace std;
 
-float calculo_chi(int, int);
+void llenar_clases(float*, int*, int, int);
+float calculo_chi(int*, int, int);
 
 float* d;
 int* oi;
 
 int main(){
     int num, n, ei, gl, count;
-    float a = 0.05, x;
+    float a, x, chi;
     string nombreAr;
     ifstream archivo;
 
@@ -25,13 +26,16 @@ int main(){
     cout << "Introduce el número de datos: ";
     cin >> num;
 
+    cout << "Introduce el nivel de confianza: ";
+    cin >> a;
+
     d = new float[num]; // arreglo para los datos
 
     n = sqrt(num); // número de clases
 
     oi = new int[n]; // arreglo para las clases
 
-    ei = num/n; // número de datos por clase
+    ei = num/n; // número esperado en la iésima clase
 
     gl = n - 1; // grados de libertad
 
@@ -49,6 +53,10 @@ int main(){
 
     sort(d, d + num); // ordenar datos
 
+    llenar_clases(d, oi, num, n);
+
+    chi = calculo_chi(oi, n, ei);
+
     // Imprimir datos
     /*cout << "Datos:\n[ ";
 	for(int i = 0; i < num; i++){
@@ -56,13 +64,42 @@ int main(){
 	}
 	cout << "]" << endl;*/
 
+    // Imprimir clases
+    cout << "Clases:\n[ ";
+	for(int i = 0; i < n; i++){
+		cout << oi[i] << " ";
+	}
+	cout << "]" << endl;
+
+    cout << "Chi cuadrada: " << chi << "." << endl;
+    cout << "Nivel de confianza: " << a << "." << endl;
     cout << "Grados de libertad: " << gl << "." << endl;
 
     archivo.close();
+    delete [] d;
+    delete [] oi;
+
     return 0;
 }
 
-float calculo_chi(int n, int ei){
+void llenar_clases(float *d, int *oi, int num, int n){
+    int count, j = 0;
+    float paso = 1/(float)n, start = 0.0, end = paso;
+    for(int i = 0; i < n; i++){
+        count = 0;
+
+        while(d[j] >= start && d[j] < end && j <= num){
+            count++;
+            j++;
+        }
+
+        oi[i] = count;
+        start = end;
+        end += paso;
+    }
+}
+
+float calculo_chi(int *oi, int n, int ei){
     float x;
     for(int i = 0; i < n; i++){
         x += pow((oi[i] - ei), 2)/ ei;

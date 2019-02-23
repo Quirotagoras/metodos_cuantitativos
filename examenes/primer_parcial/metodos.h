@@ -8,6 +8,14 @@ using namespace std;
 
 typedef double(*FUNC)(double);
 
+struct Point{
+    // Elementos
+    float x, y;
+    // Constructores
+    Point(): x(0), y(0){}
+    Point(float x, float y): x(x), y(y){}
+};
+
 // Estadística
 float promedio(int n, float* nums){
 	float sum = 0;
@@ -163,5 +171,44 @@ float aceptacion_rechazo(float a, float b, int beta){
         }
     } while(!bandera);
 
+    return x;
+}
+
+// Contar bajo la curva
+int contar_bajo_curva(int N, int pw, Point *points){
+    int contador = 0;
+    float op;
+    for(int i = 0; i < N; i++){
+        op = pow((1 - pow(points[i].y, pw)), pw);
+        if(points[i].x < op){
+            contador++;
+        }
+    }
+    return contador;
+}
+
+// Chi cuadrada
+void llenar_clases(float *d, int *oi, int num, int n){
+    int count, j = 0;
+    float paso = 1/(float)n, start = 0.0, end = paso;
+    for(int i = 0; i < n; i++){
+        count = 0;
+
+        while(d[j] >= start && d[j] < end && j <= num){
+            count++;
+            j++;
+        }
+
+        oi[i] = count;
+        start = end;
+        end += paso;
+    }
+}
+
+float calculo_chi(int *oi, int n, int ei){
+    float x;
+    for(int i = 0; i < n; i++){
+        x += pow((oi[i] - ei), 2)/ ei;
+    }
     return x;
 }
