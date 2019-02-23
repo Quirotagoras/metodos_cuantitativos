@@ -2,15 +2,10 @@
 // Ejecutar - ./main
 
 #include <iostream>
-#include <fstream>
-#include <math.h>
 #include <algorithm>
-#include <string.h>
 #include "metodos.h"
 
 using namespace std;
-
-double f(double);
 
 float* val;
 
@@ -23,13 +18,12 @@ int main(){
         cout << "0. Salir" << endl;
         cout << "1. Estadística" << endl;
         cout << "2. Teorema de Bayes" << endl;
-        cout << "3. Sumas de Riemann" << endl;
-        cout << "4. Números aleatorios por medio del Cuadrado Medio" << endl;
-        cout << "5. Números aleatorios por medio de Congruencia Lineal" << endl;
-        cout << "6. Transformación directa para la Distribución Normal" << endl;
-        cout << "7. Aceptación y rechazo para la Distribución Gamma" << endl;
-        cout << "8. Contar puntos bajo la curva" << endl;
-        cout << "9. Prueba de Chi cuadrada" << endl;
+        cout << "3. Números aleatorios por medio del Cuadrado Medio" << endl;
+        cout << "4. Números aleatorios por medio de Congruencia Lineal" << endl;
+        cout << "5. Transformación directa para la Distribución Normal" << endl;
+        cout << "6. Aceptación y rechazo para la Distribución Gamma" << endl;
+        cout << "7. Contar puntos bajo la curva" << endl;
+        cout << "8. Prueba de Chi cuadrada (Correr primero la Congruencia Lineal)" << endl;
 
         cout << "Opción: ";
         cin >> op;
@@ -88,63 +82,48 @@ int main(){
             }
             // Teorema de Bayes
             case 2 : {
-                float pa, paa, pab; // categoría #1, carac #1 de cateogoría #1, carac #2 de categoría #1.
-	            float pb, pba, pbb; // categoría #2, carac #1 de cateogoría #2, carac #2 de categoría #2.
+                float pa, paa, pab;
+                float pb, pba, pbb;
+                string pa_name, pb_name, c1_name, c2_name;
 
-                cout << "Introduce el porcentaje de P(A): ";
-	            cin >> pa;
-                cout << "\nIntroduce el porcentaje de la primer característica [ P(A/Aa) ]: ";
-	            cin >> paa;
-                cout << "\nIntroduce el porcentaje de la segunda característica [ P(A/Aa) ]: ";
-	            cin >> pab;
+                cin.ignore(numeric_limits<streamsize>::max(),'\n'); 
 
-                cout << "\nIntroduce el porcentaje de P(B): ";
-	            cin >> pb;
-                cout << "\nIntroduce el porcentaje de la primer característica [ P(B/Ba) ]: ";
-	            cin >> pba;
-                cout << "\nIntroduce el porcentaje de la segunda característica [ P(B/Bb) ]: ";
-	            cin >> pbb;
+                cout << "Nombres:" << endl;
 
-                float pa_aa = pa * paa, pa_ab = pa * pab;
-	            float pb_ba = pb * pba, pb_bb = pb * pbb;
-	            float pA = pa_aa + pb_ba, pB = pa_ab + pb_bb;
+                cout << "Introduce el nombre de la primer categoría [ P(A) ]: ";
+                getline(cin, pa_name);
 
-                cout << "\nResultados:" << endl;
-                cout << "P(A) * P(A/Aa): " << pa_aa << "." << endl;
-                cout << "P(A) * P(A/Ab): " << pa_ab << "." << endl;
-                cout << "P(A): " << pA << "." << endl;
+                cout << "\nIntroduce el nombre de la segunda categoría [ P(B) ]: ";
+                getline(cin, pb_name);
 
-                cout << "P(B) * P(B/Ba): " << pb_ba << "." << endl;
-                cout << "P(B) * P(B/Bb): " << pb_bb << "." << endl;
-                cout << "P(B): " << pB << "." << endl;
+                cout << "\nIntroduce el nombre de la primer característica [ P(Xa/X) ]: ";
+                getline(cin, c1_name);
 
-                cout << "P(A/Aa): " << pa_aa / pA << "." << endl;
-                cout << "P(A/Ab): " << pa_ab / pB << "." << endl;
-                cout << "P(B/Ba): " << pb_ba / pA << "." << endl;
-                cout << "P(B/Bb): " << pb_bb / pB << "." << endl << endl;
+                cout << "\nIntroduce el nombre de la segunda característica [ P(Xb/X) ]: ";
+                getline(cin, c2_name);
 
-                break;
-            }
-            // Sumas de Riemann
-            case 3 : {
-                double a, b, n, sum;
 
-                cout << "Introduce el límite izquierdo (a): ";
-                cin >> a;
+                cout << "\nPorcentajes:" << endl;
+                cout << "Introduce el porcentaje de " << pa_name << " [ P(A)] : ";
+                cin >> pa;
+                cout << "\nIntroduce el porcentaje de " <<  c1_name << "/" << pa_name << " [ P(Aa/A) ]: ";
+                cin >> paa;
+                cout << "\nIntroduce el porcentaje de " << c2_name << "/" <<  pa_name  << " [ P(Ab/A) ]: ";
+                cin >> pab;
 
-                cout << "\nIntroduce el límite derecho (b): ";
-                cin >> b;
+                cout << "\nIntroduce el porcentaje de " << pb_name << " [ P(B)] : ";
+                cin >> pb;
+                cout << "\nIntroduce el porcentaje de " << c1_name << "/" << pb_name << " [ P(Ba/B) ]: ";
+                cin >> pba;
+                cout << "\nIntroduce el porcentaje de " << c2_name << "/" << pb_name << " [ P(Bb/B) ]: ";
+                cin >> pbb;
 
-                cout << "\nIntroduce el número de partes (n): ";
-                cin >> n;
-
-                sum = area(f, a, b, n);
-                cout << "Área de f: " << sum << endl << endl;
+                bayes(pa, paa, pab, pb, pba, pbb, pa_name, pb_name, c1_name, c2_name);
 
                 break;
             }
             // Números aleatorios por Cuadrado Medio
-            case 4 : {
+            case 3 : {
                 int n, iteraciones;
 
                 cout << "Introduce un número de 4 dígitos: ";
@@ -160,7 +139,7 @@ int main(){
                 break;
             }
             // Número aleatorios por Congruencia Lineal
-            case 5 : {
+            case 4 : {
                  int semilla, a, c, n, m, x, i = 0;
                  float r;
 
@@ -198,7 +177,7 @@ int main(){
                 break;
             }
             // Distribución Normal
-            case 6 : {
+            case 5 : {
                 int m, sigma;
 
                 cout << "\nIntroduce el valor medio (m): ";
@@ -217,7 +196,7 @@ int main(){
                 break;
             }
             // Distribución Gamma
-            case 7 : {
+            case 6 : {
                 int beta, th;
 
                 cout << "Introduce el valor de Beta: ";
@@ -240,8 +219,9 @@ int main(){
                 break;
             }
             // Contar bajo la curva
-            case 8: {
-                int n, pw, N, A = 1;
+            case 7: {
+                unsigned int N;
+                int n, pw, A = 1;
                 Point* points;
 
                 float r1, r2;
@@ -271,7 +251,7 @@ int main(){
                 break;
             }
             // Chi cuadrada
-            case 9 : {
+            case 8 : {
                 int num, n, ei, gl, count;
                 int* oi;
                 float a, x, chi;
@@ -295,15 +275,15 @@ int main(){
 
                 chi = calculo_chi(oi, n, ei);
 
-                cout << "Clases:\n[ ";
+                cout << endl << "Clases:\n[ ";
                 for(int i = 0; i < n; i++){
                     cout << oi[i] << " ";
                 }
                 cout << "]" << endl;
 
-                cout << "Chi cuadrada: " << chi << "." << endl;
+                cout << endl << "Chi cuadrada: " << chi << "." << endl;
                 cout << "Nivel de confianza: " << a << "." << endl;
-                cout << "Grados de libertad: " << gl << "." << endl;
+                cout << "Grados de libertad: " << gl << "." << endl << endl;
 
                 delete [] oi;
 
@@ -319,8 +299,4 @@ int main(){
     delete [] val;
 
     return 0;
-}
-
-double f(double x){
-    return 2.0*x;
 }

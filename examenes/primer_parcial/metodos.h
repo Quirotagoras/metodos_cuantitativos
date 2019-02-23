@@ -6,12 +6,9 @@
 
 using namespace std;
 
-typedef double(*FUNC)(double);
-
 struct Point{
-    // Elementos
     float x, y;
-    // Constructores
+
     Point(): x(0), y(0){}
     Point(float x, float y): x(x), y(y){}
 };
@@ -86,18 +83,33 @@ float curtosis(int n, float p, float s, float* nums){
 	return (sum/(n*s4)) - 3;
 }
 
-// Riemann
-double area(FUNC f, double a, double b, double n){
-    double dx = (b - a)/n;
-    double sum(0.0);
-    double x = a;
-    while (x <= b){
-        sum += f(x)*dx;
-        x += dx;
-    }
-    return sum;
+// Teorema de Bayes
+void bayes(float pa, float paa,  float pab,  float pb, float pba, float pbb, string pa_name, string pb_name, string c1_name, string c2_name){
+	float pa_aa = pa * paa, pa_ab = pa * pab;
+	float pb_ba = pb * pba, pb_bb = pb * pbb;
+	float pA = pa_aa + pb_ba, pB = pa_ab + pb_bb;
+
+	cout << "\nResultados:" << endl;
+	// Primer categoría
+	cout << "Porcentaje de [ P(A) * P(Aa/A) ]: " << pa_aa << "." << endl;
+	cout << "Porcentaje de [ P(A) * P(Ab/A) ]: " << pa_ab << "." << endl;
+	cout << "Porcentaje total de " << pa_name << "[ P(A) ]: " << pA << "." << endl;
+
+	// Segunda categoría
+	cout << "Porcentaje de [ P(B) * P(Ba/B) ]: " << pb_ba << "." << endl;
+	cout << "Porcentaje de [ P(B) * P(Bb/B) ]: " << pb_bb << "." << endl;
+	cout << "Porcentaje total de " << pb_name << "[ P(B) ]: " << pB << "." << endl << endl;
+
+	// Teorema de Bayes
+	cout << "Porcentaje de " <<  pa_name << "/" << c1_name << " [ P(A/Aa) ]: " << pa_aa / pA << "." << endl;
+	cout << "Porcentaje de " <<  pa_name << "/" << c2_name << " [ P(A/Ab) ]: " << pa_ab / pB << "." << endl;
+	cout << "Porcentaje de " <<  pb_name << "/" << c1_name << " [ P(B/Ba) ]: " << pb_ba / pA << "." << endl;
+	cout << "Porcentaje de " <<  pb_name << "/" << c2_name << " [ P(B/Bb) ]: " << pb_bb / pB << "." << endl;
+
+	cout << endl;
 }
 
+// Cuadrado Medio
 int num_dig(int n){
     unsigned int number_of_digits = 0;
     do {
@@ -107,7 +119,6 @@ int num_dig(int n){
     return number_of_digits;
 }
 
-// Cuadrado Medio
 int cuadrado_medio(int n){
     int m, in, contador = 0;
     string num, mitad;
@@ -175,12 +186,13 @@ float aceptacion_rechazo(float a, float b, int beta){
 }
 
 // Contar bajo la curva
-int contar_bajo_curva(int N, int pw, Point *points){
+int contar_bajo_curva(unsigned int N, int pw, Point *points){
     int contador = 0;
     float op;
     for(int i = 0; i < N; i++){
-        op = pow((1 - pow(points[i].y, pw)), pw);
-        if(points[i].x < op){
+        //op = pow((1 - pow(points[i].y, pw)), 1/pw);
+        op = pow(points[i].x, pw) + pow(points[i].y, pw);
+        if(op < 1){
             contador++;
         }
     }
