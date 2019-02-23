@@ -192,14 +192,6 @@ int main(){
                     cout << "[ X_" << i + 1 << ": " << x << ". R_" << i + 1 << ": " << r << " ]." << endl;
                     val[i] = r;
                 }
-                /*
-                do {
-                    x = ((a * x) + c) % m;
-                    r = (float)x/m;
-
-                    cout << "[ X_" << i + 1 << ": " << x << ". R_" << i + 1 << ": " << r << " ]." << endl;
-                    i++;
-                } while (x != semilla);*/
 
                 cout << endl;
 
@@ -263,7 +255,7 @@ int main(){
                 points = new Point[N];
 
                 for(int i = 0; i < N; i++){
-                    r1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // Número aleatorio etre [0, 1]
+                    r1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
                     r2 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
                     points[i] = Point(r1, r2);
                 }
